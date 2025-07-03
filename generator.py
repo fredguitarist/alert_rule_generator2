@@ -1,36 +1,30 @@
 import yaml
 from pathlib import Path
-from typing import Dict, Any
+from typing import Dict
 
-def generate_alert_rule(target: Dict[str, Any], template_path: str) -> Dict[str, Any]:
+def extract_environment_from_filename(filename: str) -> str:
+    lowered = filename.lower()
+    for env in ("dev", "stage", "prod"):
+        if env in lowered:
+            return env
+    return "null"  # Если ничего не нашли — пишем null
+
+def host_to_title(host: str) -> str:
+    # Пример: vs-db-stage01 -> VsDbStage01
+    return "".join(part.capitalize() for part in host.replace("_", "-").split("-"))
+
+def generate_alert_rule(target: Dict, template_dir: str, filename: str) -> Dict:
+    template_path = Path(template_dir) / "cpu_alert.yaml"
     with open(template_path, "r", encoding="utf-8") as f:
-        template = yaml.safe_load(f)
+        template = f.read()
 
     host = target["labels"]["host"]
+    environment = extract_environment_from_filename(filename)
 
-    for group in template.get("groups", []):
-        group_name = group.get("name", "")
-        group["name"] = f"{group_name}_{host}"
+    # Делаем замену по плейсхолдерам
+    alert_text = template.replace("{{ host }}", host)\
+                         .replace("{{ host_title }}", host_to_title(host))\
+                         .replace("{{ environment }}", environment)
 
-        for rule in group.get("rules", []):
-            alert_name = f"{rule['alert']}On{host.replace('-', '').replace('_', '')}"
-            rule["alert"] = alert_name
-
-            expr = rule.get("expr", "")
-            if "{" in expr and "}" in expr:
-                expr = expr.replace("{", f'{{host="{host}", ')
-            else:
-                expr = f'{{host="{host}"}}'
-
-            rule["expr"] = expr
-
-            if "labels" in rule:
-                rule["labels"]["host"] = host
-
-            if "annotations" in rule:
-                for k, v in rule["annotations"].items():
-                    v = v.replace("{{ $labels.instance }}", host)
-                    v = v.replace("{{ $labels.host }}", host)
-                    rule["annotations"][k] = v
-
-    return template
+    alert_dict = yaml.safe_load(alert_text)
+    return alert_dict

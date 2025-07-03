@@ -1,13 +1,13 @@
 groups:
-- name: cpu_alerts_vs-elastic-stage01
+- name: cpu_alerts
   rules:
-  - alert: HighCpuUsageOn{{ host|title }}Onvselasticstage01
-    expr: (100 - avg by(instance)(irate(node_cpu_seconds_total{host="vs-elastic-stage01",
-      mode="idle"}[5m])) * 100 > 80
+  - alert: HighCpuUsageOnVsElasticStage01
+    expr: (100 - avg by(instance)(irate(node_cpu_seconds_total{mode="idle"}[5m]))
+      * 100 > 80
     for: 5m
     labels:
       severity: warning
-      host: vs-elastic-stage01
+      environment: stage
     annotations:
-      summary: High CPU usage on {{ host }} (vs-elastic-stage01)
-      description: CPU usage is over 80% on host {{ host }} ({{ $value }}%)
+      summary: High CPU usage on vs-elastic-stage01 ({{ $labels.instance }})
+      description: CPU usage is over 80% on host vs-elastic-stage01 ({{ $value }}%)

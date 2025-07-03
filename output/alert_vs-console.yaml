@@ -1,13 +1,13 @@
 groups:
-- name: cpu_alerts_vs-console
+- name: cpu_alerts
   rules:
-  - alert: HighCpuUsageOn{{ host|title }}Onvsconsole
-    expr: (100 - avg by(instance)(irate(node_cpu_seconds_total{host="vs-console",
-      mode="idle"}[5m])) * 100 > 80
+  - alert: HighCpuUsageOnVsConsole
+    expr: (100 - avg by(instance)(irate(node_cpu_seconds_total{mode="idle"}[5m]))
+      * 100 > 80
     for: 5m
     labels:
       severity: warning
-      host: vs-console
+      environment: null
     annotations:
-      summary: High CPU usage on {{ host }} (vs-console)
-      description: CPU usage is over 80% on host {{ host }} ({{ $value }}%)
+      summary: High CPU usage on vs-console ({{ $labels.instance }})
+      description: CPU usage is over 80% on host vs-console ({{ $value }}%)

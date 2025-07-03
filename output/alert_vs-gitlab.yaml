@@ -1,13 +1,13 @@
 groups:
-- name: cpu_alerts_vs-gitlab
+- name: cpu_alerts
   rules:
-  - alert: HighCpuUsageOn{{ host|title }}Onvsgitlab
-    expr: (100 - avg by(instance)(irate(node_cpu_seconds_total{host="vs-gitlab", mode="idle"}[5m]))
+  - alert: HighCpuUsageOnVsGitlab
+    expr: (100 - avg by(instance)(irate(node_cpu_seconds_total{mode="idle"}[5m]))
       * 100 > 80
     for: 5m
     labels:
       severity: warning
-      host: vs-gitlab
+      environment: null
     annotations:
-      summary: High CPU usage on {{ host }} (vs-gitlab)
-      description: CPU usage is over 80% on host {{ host }} ({{ $value }}%)
+      summary: High CPU usage on vs-gitlab ({{ $labels.instance }})
+      description: CPU usage is over 80% on host vs-gitlab ({{ $value }}%)

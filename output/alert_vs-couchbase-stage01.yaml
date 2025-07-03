@@ -1,13 +1,13 @@
 groups:
-- name: cpu_alerts_vs-couchbase-stage01
+- name: cpu_alerts
   rules:
-  - alert: HighCpuUsageOn{{ host|title }}Onvscouchbasestage01
-    expr: (100 - avg by(instance)(irate(node_cpu_seconds_total{host="vs-couchbase-stage01",
-      mode="idle"}[5m])) * 100 > 80
+  - alert: HighCpuUsageOnVsCouchbaseStage01
+    expr: (100 - avg by(instance)(irate(node_cpu_seconds_total{mode="idle"}[5m]))
+      * 100 > 80
     for: 5m
     labels:
       severity: warning
-      host: vs-couchbase-stage01
+      environment: stage
     annotations:
-      summary: High CPU usage on {{ host }} (vs-couchbase-stage01)
-      description: CPU usage is over 80% on host {{ host }} ({{ $value }}%)
+      summary: High CPU usage on vs-couchbase-stage01 ({{ $labels.instance }})
+      description: CPU usage is over 80% on host vs-couchbase-stage01 ({{ $value }}%)

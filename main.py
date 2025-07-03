@@ -5,16 +5,15 @@ import yaml
 
 CONFIG_DIR = "configs"
 OUTPUT_DIR = "output"
-TEMPLATE_FILE = "templates/cpu_alert.yaml"
+TEMPLATE_DIR = "templates"
 
 def load_targets_with_node(config_dir: str):
     targets = []
     for file_path in Path(config_dir).glob("*node*.json"):
         with open(file_path, "r", encoding="utf-8") as f:
             data = json.load(f)
-            # data — список целей в файле
             for target in data:
-                targets.append(target)
+                targets.append((target, file_path.name))
     return targets
 
 def write_alert(output_dir: str, host: str, alert_data: dict):
@@ -26,13 +25,11 @@ def write_alert(output_dir: str, host: str, alert_data: dict):
     print(f"Alert written to {output_path}")
 
 def main():
-    targets = load_targets_with_node(CONFIG_DIR)
-    print(f"Found {len(targets)} targets with 'node' in filename")
-    for target in targets:
+    targets_with_files = load_targets_with_node(CONFIG_DIR)
+    for target, filename in targets_with_files:
         host = target["labels"]["host"]
-        alert_rule = generate_alert_rule(target, TEMPLATE_FILE)
+        alert_rule = generate_alert_rule(target, TEMPLATE_DIR, filename)
         write_alert(OUTPUT_DIR, host, alert_rule)
 
 if __name__ == "__main__":
     main()
-

@@ -1,13 +1,13 @@
 groups:
-- name: cpu_alerts_vs-db-stage01
+- name: cpu_alerts
   rules:
-  - alert: HighCpuUsageOn{{ host|title }}Onvsdbstage01
-    expr: (100 - avg by(instance)(irate(node_cpu_seconds_total{host="vs-db-stage01",
-      mode="idle"}[5m])) * 100 > 80
+  - alert: HighCpuUsageOnVsDbStage01
+    expr: (100 - avg by(instance)(irate(node_cpu_seconds_total{mode="idle"}[5m]))
+      * 100 > 80
     for: 5m
     labels:
       severity: warning
-      host: vs-db-stage01
+      environment: stage
     annotations:
-      summary: High CPU usage on {{ host }} (vs-db-stage01)
-      description: CPU usage is over 80% on host {{ host }} ({{ $value }}%)
+      summary: High CPU usage on vs-db-stage01 ({{ $labels.instance }})
+      description: CPU usage is over 80% on host vs-db-stage01 ({{ $value }}%)
