@@ -1,26 +1,38 @@
 import json
 from pathlib import Path
-import yaml
 from generator import generate_alert_rule
+import yaml
+
+CONFIG_DIR = "configs"
+OUTPUT_DIR = "output"
+TEMPLATE_FILE = "templates/cpu_alert.yaml"
+
+def load_targets_with_node(config_dir: str):
+    targets = []
+    for file_path in Path(config_dir).glob("*node*.json"):
+        with open(file_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            # data — список целей в файле
+            for target in data:
+                targets.append(target)
+    return targets
+
+def write_alert(output_dir: str, host: str, alert_data: dict):
+    Path(output_dir).mkdir(parents=True, exist_ok=True)
+    filename = f"alert_{host}.yaml"
+    output_path = Path(output_dir) / filename
+    with open(output_path, "w", encoding="utf-8") as f:
+        yaml.dump(alert_data, f, sort_keys=False)
+    print(f"Alert written to {output_path}")
 
 def main():
-    input_path = Path("configs/targets.json")
-    template_path = Path("templates/cpu_alert.yaml")
-    output_dir = Path("output")
-    output_dir.mkdir(exist_ok=True)
-
-    with open(input_path, "r", encoding="utf-8") as f:
-        targets = json.load(f)
-
+    targets = load_targets_with_node(CONFIG_DIR)
+    print(f"Found {len(targets)} targets with 'node' in filename")
     for target in targets:
-        alert_rule = generate_alert_rule(target, str(template_path))
-
-        host = target["labels"]["host"].lower()
-        output_file = output_dir / f"alert_{host}.yaml"
-        with open(output_file, "w", encoding="utf-8") as f:
-            yaml.dump(alert_rule, f, sort_keys=False, allow_unicode=True)
-
-        print(f"Alert saved to {output_file}")
+        host = target["labels"]["host"]
+        alert_rule = generate_alert_rule(target, TEMPLATE_FILE)
+        write_alert(OUTPUT_DIR, host, alert_rule)
 
 if __name__ == "__main__":
     main()
+

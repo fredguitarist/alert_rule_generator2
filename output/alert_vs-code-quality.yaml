@@ -1,0 +1,13 @@
+groups:
+- name: cpu_alerts_vs-code-quality
+  rules:
+  - alert: HighCpuUsageOn{{ host|title }}Onvscodequality
+    expr: (100 - avg by(instance)(irate(node_cpu_seconds_total{host="vs-code-quality",
+      mode="idle"}[5m])) * 100 > 80
+    for: 5m
+    labels:
+      severity: warning
+      host: vs-code-quality
+    annotations:
+      summary: High CPU usage on {{ host }} (vs-code-quality)
+      description: CPU usage is over 80% on host {{ host }} ({{ $value }}%)

@@ -1,0 +1,9 @@
+[
+  {
+    "targets": ["10.77.11.11:9094"],
+    "labels": {
+      "job": "couchbase",
+      "host": "vs-dev01"
+    }
+  }
+]

@@ -1,0 +1,9 @@
+[
+  {
+    "targets": ["10.77.11.150:9100"],
+    "labels": {
+      "job": "node",
+      "host": "vs-gateway-stage01"
+    }
+  }
+]

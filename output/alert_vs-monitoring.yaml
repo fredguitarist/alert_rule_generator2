@@ -1,0 +1,13 @@
+groups:
+- name: cpu_alerts_vs-monitoring
+  rules:
+  - alert: HighCpuUsageOn{{ host|title }}Onvsmonitoring
+    expr: (100 - avg by(instance)(irate(node_cpu_seconds_total{host="vs-monitoring",
+      mode="idle"}[5m])) * 100 > 80
+    for: 5m
+    labels:
+      severity: warning
+      host: vs-monitoring
+    annotations:
+      summary: High CPU usage on {{ host }} (vs-monitoring)
+      description: CPU usage is over 80% on host {{ host }} ({{ $value }}%)
