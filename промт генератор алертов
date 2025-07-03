@@ -1,0 +1,22 @@
+начнем сначала. имея конфигу [
+  {
+    "targets": ["10.77.11.100:9529"],
+    "labels": {
+      "job": "cadvisor",
+      "host": "vs-db-stage01"
+    }
+  }
+]
+нужно получать правило алерта groups:
+- name: cpu_alerts
+  rules:
+  - alert: HighCpuUsageOnVsDbStage01
+    expr: (100 - avg by(instance)(irate(node_cpu_seconds_total{mode="idle", host="vs-db-stage01"}[5m])) * 100) < 80
+    for: 5m
+    labels:
+      severity: warning
+      host: vs-db-stage01
+    annotations:
+      summary: High CPU usage on vs-db-stage01 ({{ $labels.instance }})
+      description: CPU usage is over 80% on host vs-db-stage01 ({{ $value }}%)
+ шаблон любой
