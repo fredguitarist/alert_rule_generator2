@@ -2,12 +2,13 @@ groups:
 - name: cpu_alerts
   rules:
   - alert: HighCpuUsageOnVsDev03
-    expr: (100 - avg by(instance)(irate(node_cpu_seconds_total{mode="idle"}[5m]))
-      * 100 > 80
+    expr: (100 - avg by(instance)(irate(node_cpu_seconds_total{mode="idle", host="vs-dev03"}[5m]))
+      * 100) > 80
     for: 5m
     labels:
       severity: warning
-      environment: dev
+      host: vs-dev03
+      environment: 'null'
     annotations:
       summary: High CPU usage on vs-dev03 ({{ $labels.instance }})
       description: CPU usage is over 80% on host vs-dev03 ({{ $value }}%)
