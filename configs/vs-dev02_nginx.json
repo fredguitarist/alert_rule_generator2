@@ -1,9 +1,0 @@
-[
-  {
-    "targets": ["10.77.11.12:9113"],
-    "labels": {
-      "job": "nginx",
-      "host": "vs-dev02"
-    }
-  }
-]

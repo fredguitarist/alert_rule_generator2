@@ -1,9 +1,0 @@
-[
-  {
-    "targets": ["10.77.11.12:9529"],
-    "labels": {
-      "job": "cadvisor",
-      "host": "vs-dev02"
-    }
-  }
-]

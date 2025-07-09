@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from generator_for_nodes import generate_alert_rule_for_nodes
+from generator import generate_alert_rule
 import yaml
 
 # CONFIG_DIR = "/opt/prometheus/sd_configs"
@@ -40,8 +40,9 @@ def main():
         # Проверяем, что 'node' есть в имени файла (без учёта регистра)
         if "node" in filename.lower():
             host = target["labels"]["host"]
-            alert_rule = generate_alert_rule_for_nodes(target, TEMPLATE_DIR)
-            controlled = filename.rsplit("_", 1)[-1].split(".", 1)[0]
+            alert_rule = generate_alert_rule(target, TEMPLATE_DIR)
+            #controlled = filename.rsplit("_", 1)[-1].split(".", 1)[0] #пока можно не выебываться, все равно ветвление
+            controlled = filename
             write_alert(OUTPUT_DIR, host, alert_rule, controlled)
         else:
             # Можно добавить пропуск или лог, если нужно

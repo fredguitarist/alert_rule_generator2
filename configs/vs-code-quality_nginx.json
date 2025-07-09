@@ -1,9 +1,0 @@
-[
-  {
-    "targets": ["10.77.12.152:9113"],
-    "labels": {
-      "job": "nginx",
-      "host": "vs-code-quality"
-    }
-  }
-]

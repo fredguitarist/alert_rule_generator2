@@ -1,9 +1,0 @@
-[
-  {
-    "targets": ["10.77.11.15:9114"],
-    "labels": {
-      "job": "elasticsearch",
-      "host": "vs-dev05"
-    }
-  }
-]

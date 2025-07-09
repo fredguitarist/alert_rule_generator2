@@ -1,9 +1,0 @@
-[
-  {
-    "targets": ["10.77.12.153:9100"],
-    "labels": {
-      "job": "node",
-      "host": "vs-graylog"
-    }
-  }
-]

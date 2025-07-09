@@ -1,9 +1,0 @@
-[
-  {
-    "targets": ["10.77.11.60:9094"],
-    "labels": {
-      "job": "couchbase",
-      "host": "vs-couchbase-stage01"
-    }
-  }
-]

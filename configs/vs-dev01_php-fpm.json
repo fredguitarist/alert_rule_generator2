@@ -1,9 +1,0 @@
-[
-  {
-    "targets": ["10.77.11.11:9253"],
-    "labels": {
-      "job": "php-fpm",
-      "host": "vs-dev01"
-    }
-  }
-]

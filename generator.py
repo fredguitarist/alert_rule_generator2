@@ -19,7 +19,7 @@ def host_to_title(host: str) -> str:
     # затем каждую часть делаем с заглавной буквы и соединяем обратно
     return "".join(part.capitalize() for part in host.replace("_", "-").split("-"))
 
-def generate_alert_rule_for_nodes(target: Dict, filename: str) -> Dict:
+def generate_alert_rule(target: Dict, filename: str) -> Dict:
     raw_host = target["labels"]["host"]  # Исходное значение хоста из меток
     host = raw_host.replace("-", "_")  # Заменяем дефисы на подчёркивания (для PromQL)
     environment = extract_environment_from_filename(filename)  # Определяем окружение из имени файла

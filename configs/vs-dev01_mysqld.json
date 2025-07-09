@@ -1,9 +1,0 @@
-[
-  {
-    "targets": ["10.77.11.11:9104"],
-    "labels": {
-      "job": "mysqld",
-      "host": "vs-dev01"
-    }
-  }
-]

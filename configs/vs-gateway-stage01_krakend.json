@@ -1,9 +1,0 @@
-[
-  {
-    "targets": ["10.77.11.150:9090"],
-    "labels": {
-      "job": "krakend",
-      "host": "vs-gateway-stage01"
-    }
-  }
-]
