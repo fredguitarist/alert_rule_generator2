@@ -1,0 +1,14 @@
+groups:
+- name: cpu_alerts
+  rules:
+  - alert: HighCpuUsageOnVsCodeQuality
+    expr: (100 - avg by(instance)(irate(node_cpu_seconds_total{mode="idle", host="vs_code_quality"}[5m]))
+      * 100) > 80
+    for: 5m
+    labels:
+      severity: warning
+      host: vs_code_quality
+      environment: 'null'
+    annotations:
+      summary: High CPU usage on vs_code_quality ({{ $labels.instance }})
+      description: CPU usage is over 80% on host vs_code_quality ({{ $value }}%)

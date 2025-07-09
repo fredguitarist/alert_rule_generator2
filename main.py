@@ -19,12 +19,17 @@ def load_targets_with_node(config_dir: str):
     return targets
 
 def write_alert(output_dir: str, host: str, alert_data: dict):
+    # Создаём директорию для вывода, если она ещё не существует
     Path(output_dir).mkdir(parents=True, exist_ok=True)
+    # Формируем имя выходного файла на основе имени хоста
     filename = f"alert_{host}.yml"
+    # Полный путь к файлу: директория + имя файла
     output_path = Path(output_dir) / filename
+    # Открываем файл на запись в формате UTF-8
     with open(output_path, "w", encoding="utf-8") as f:
+        # Сохраняем словарь alert_data в YAML-файл без сортировки ключей
         yaml.dump(alert_data, f, sort_keys=False)
-    print(f"✅ Alert written to {output_path}")
+    #print(f"✅ Alert written to {output_path}")
 
 def main():
     targets_with_files = load_targets_with_node(CONFIG_DIR)
