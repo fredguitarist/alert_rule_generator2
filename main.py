@@ -33,15 +33,17 @@ def write_alert(output_dir: str, host: str, alert_data: dict, controlled: str):
     #print(f"✅ Alert written to {output_path}")
 
 def main():
-    targets_with_files = load_targets(CONFIG_DIR)
+    targets_with_files = load_targets(CONFIG_DIR) #загрузка целей
     print(f"Найдено {len(targets_with_files)} целей")  # для отладки
 
     for target, filename in targets_with_files:
         # Проверяем, что 'node' есть в имени файла (без учёта регистра)
         if "node" in filename.lower():
-            host = target["labels"]["host"]
+            host = target["labels"]["host"] #зачем эта строка
+            print(host)
+            print(target)
             alert_rule = generate_for_node(target, TEMPLATE_DIR)
-            #controlled = filename.rsplit("_", 1)[-1].split(".", 1)[0] #пока можно не выебываться, все равно ветвление
+            # print(TEMPLATE_DIR)
             controlled = "node"
             write_alert(OUTPUT_DIR, host, alert_rule, controlled)
         else:

@@ -5,7 +5,8 @@ from typing import Dict
 def generate_for_node(target: Dict, filename: str) -> Dict:
     raw_host = target["labels"]["host"]  # Исходное значение хоста из меток
     host = raw_host.replace("-", "_")  # Заменяем дефисы на подчёркивания (для PromQL)
-    environment = extract_environment_from_filename(filename)  # Определяем окружение из имени файла
+    environment = extract_environment_from_filename(host)  # Определяем окружение из имени файла
+    print(filename)
     host_title = host_to_title(raw_host)  # Преобразуем хост в формат для имени алерта (например, VsDbStage01)
 
     rule = {
