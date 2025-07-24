@@ -44,7 +44,7 @@ def main():
             print(target)
             alert_rule = generate_for_node(target, TEMPLATE_DIR)
             # print(TEMPLATE_DIR)
-            controlled = "node"
+            controlled = "node_cpu"
             write_alert(OUTPUT_DIR, host, alert_rule, controlled)
         else:
             # Можно добавить пропуск или лог, если нужно

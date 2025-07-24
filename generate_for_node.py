@@ -16,7 +16,7 @@ def generate_for_node(target: Dict, filename: str) -> Dict:
                 "rules": [
                     {
                         "alert": f"HighCpuUsageOn{host_title}",  # Название алерта, читаемое человеком
-                        "expr": f'(100 - avg by(instance)(irate(node_cpu_seconds_total{{mode="idle", host="{host}"}}[5m])) * 100) > 80',
+                        "expr": f'(100 - avg by(instance)(irate(node_cpu_seconds_total{{mode="idle", host="{host}"}}[5m])) * 100) > 70',
                         # Условие: если средняя загрузка CPU (100 - idle) > 80% за последние 5 минут
                         "for": "5m",  # Условие должно выполняться как минимум 5 минут
                         "labels": {
