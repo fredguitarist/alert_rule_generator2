@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from generate_for_node_ram import generate_for_node_ram
 from generate_for_node_cpu import generate_for_node_cpu
 import yaml
 
@@ -55,7 +56,7 @@ def main():
         # Проверяем, что 'node' есть в имени файла (без учёта регистра)
         if "node" in filename.lower():
             host = target["labels"]["host"] #зачем эта строка
-            alert_rule = generate_for_node_cpu(target, TEMPLATE_DIR) #генерация правил алертинга в папку
+            alert_rule = generate_for_node_ram(target, TEMPLATE_DIR) #генерация правил алертинга в папку
             controlled = "node_ram"
             write_alert(OUTPUT_DIR, host, alert_rule, controlled)
 

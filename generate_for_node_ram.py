@@ -2,7 +2,7 @@ from extract_environment_from_filename import extract_environment_from_filename
 from host_to_title import host_to_title
 from typing import Dict
 
-def generate_for_node_cpu(target: Dict, filename: str) -> Dict:
+def generate_for_node_ram(target: Dict, filename: str) -> Dict:
     raw_host = target["labels"]["host"]  # Исходное значение хоста из меток
     host = raw_host.replace("-", "_")  # Заменяем дефисы на подчёркивания (для PromQL)
     environment = extract_environment_from_filename(host)  # Определяем окружение из имени файла
@@ -16,7 +16,7 @@ def generate_for_node_cpu(target: Dict, filename: str) -> Dict:
                 "rules": [
                     {
                         "alert": f"HostOutOfMemory{host_title}",  # Название алерта, читаемое человеком
-                        "expr": f'(100 - avg by(instance)(irate(node_cpu_seconds_total{{mode="idle", host="{host}"}}[5m])) * 100) > 70',
+                        "expr": f'node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 10',
                         # Условие: если средняя загрузка CPU (100 - idle) > 80% за последние 5 минут
                         "for": "5m",  # Условие должно выполняться как минимум 5 минут
                         "labels": {
@@ -25,9 +25,9 @@ def generate_for_node_cpu(target: Dict, filename: str) -> Dict:
                             "environment": environment  # Окружение (dev/stage/prod/null)
                         },
                         "annotations": {
-                            "summary": f"High CPU usage on {host} ({{{{ $labels.instance }}}})",
+                            "summary": f"Host out of memory {host} ({{{{ $labels.instance }}}})",
                             # Краткое описание — попадёт в заголовок оповещения
-                            "description": f"CPU usage is over 80% on host {host} ({{{{ $value }}}}%)"
+                            "description": f"RAM usage is over 70% on host  {host} ({{{{ $value }}}}%)"
                             # Полное описание — попадёт в тело оповещения
                         }
                     }

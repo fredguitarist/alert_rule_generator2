@@ -27,7 +27,7 @@ def generate_for_node_cpu(target: Dict, filename: str) -> Dict:
                         "annotations": {
                             "summary": f"High CPU usage on {host} ({{{{ $labels.instance }}}})",
                             # Краткое описание — попадёт в заголовок оповещения
-                            "description": f"RAM usage is over 70% on host {host} ({{{{ $value }}}}%)"
+                            "description": f"CPU usage is over 80% on host {host} ({{{{ $value }}}}%)"
                             # Полное описание — попадёт в тело оповещения
                         }
                     }
