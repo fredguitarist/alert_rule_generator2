@@ -4,5 +4,7 @@ def extract_environment_from_filename(hostname: str) -> str:
     print(hostname)
     if 'stage' in hostname:
         return 'stage'
+    if 'dev' in hostname:
+        return 'dev'
     else:
         return 'other'
