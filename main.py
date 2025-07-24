@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from generate_for_node import generate_for_node
+from generate_for_node_cpu import generate_for_node_cpu
 import yaml
 
 # CONFIG_DIR = "/opt/prometheus/sd_configs"
@@ -24,6 +24,7 @@ def write_alert(output_dir: str, host: str, alert_data: dict, controlled: str):
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     # Формируем имя выходного файла на основе имени хоста
     filename = f"alert_{host}_{controlled}.yml"
+    print(filename + " записан")
     # Полный путь к файлу: директория + имя файла
     output_path = Path(output_dir) / filename
     # Открываем файл на запись в формате UTF-8
@@ -40,16 +41,24 @@ def main():
         # Проверяем, что 'node' есть в имени файла (без учёта регистра)
         if "node" in filename.lower():
             host = target["labels"]["host"] #зачем эта строка
-            print(host)
-            print(target)
-            alert_rule = generate_for_node(target, TEMPLATE_DIR)
+            # print(host)
+            # print(target)
+            alert_rule = generate_for_node_cpu(target, TEMPLATE_DIR) #генерация правил алертинга в папку
             # print(TEMPLATE_DIR)
             controlled = "node_cpu"
             write_alert(OUTPUT_DIR, host, alert_rule, controlled)
         else:
-            # Можно добавить пропуск или лог, если нужно
             # print(f"Пропускаем {filename}, не содержит 'node'")
             pass
+
+    for target, filename in targets_with_files:
+        # Проверяем, что 'node' есть в имени файла (без учёта регистра)
+        if "node" in filename.lower():
+            host = target["labels"]["host"] #зачем эта строка
+            alert_rule = generate_for_node_cpu(target, TEMPLATE_DIR) #генерация правил алертинга в папку
+            controlled = "node_ram"
+            write_alert(OUTPUT_DIR, host, alert_rule, controlled)
+
 
 
 if __name__ == "__main__":
