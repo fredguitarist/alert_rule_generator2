@@ -1,0 +1,9 @@
+[
+  {
+    "targets": ["10.77.11.15:9113"],
+    "labels": {
+      "job": "nginx",
+      "host": "vs-dev05"
+    }
+  }
+]

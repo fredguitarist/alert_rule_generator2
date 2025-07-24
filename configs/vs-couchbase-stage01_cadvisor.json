@@ -1,0 +1,9 @@
+[
+  {
+    "targets": ["10.77.11.60:9529"],
+    "labels": {
+      "job": "cadvisor",
+      "host": "vs-couchbase-stage01"
+    }
+  }
+]

@@ -5,8 +5,8 @@ import yaml
 
 # CONFIG_DIR = "/opt/prometheus/sd_configs"
 # OUTPUT_DIR = "/opt/prometheus/alerts"
-CONFIG_DIR = "/home/nekto/AWG/projects/Восток-Сервис/alert_rules_generator/configs"
-OUTPUT_DIR = ".result"
+CONFIG_DIR = "configs"
+OUTPUT_DIR = "result"
 TEMPLATE_DIR = "templates"
 
 #загрузка всех конфигураций

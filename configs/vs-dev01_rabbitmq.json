@@ -1,0 +1,9 @@
+[
+  {
+    "targets": ["10.77.11.11:9419"],
+    "labels": {
+      "job": "rabbitmq",
+      "host": "vs-dev01"
+    }
+  }
+]
